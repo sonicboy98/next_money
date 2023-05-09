@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from 'next/image';
-import FooterUI from "./UI/Footer";
 import Header from "./UI/Header";
 
 
