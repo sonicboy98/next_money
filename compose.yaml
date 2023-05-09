@@ -11,7 +11,7 @@ services:
     tty: true
     environment:
       TZ: Asia/Tokyo
-    mem_limit: 600m
+    mem_limit: 400m
     # command: >
     #   sh -c '
     #     cd app
