@@ -11,6 +11,7 @@ services:
     tty: true
     environment:
       TZ: Asia/Tokyo
+    mem_limit: 600m
     # command: >
     #   sh -c '
     #     cd app
@@ -34,6 +35,7 @@ services:
       - ./docker/mysql/sql:/docker-entrypoint-initdb.d:cached
     ports:
       - 3306:3306
+    mem_limit: 400m
 
   # api:
   #   container_name: api_container
@@ -55,15 +57,15 @@ services:
   #   #   '
 
 
-  phpmyadmin:
-    image: phpmyadmin:5.2
-    depends_on:
-      - mysql
-    environment:
-      PMA_HOST: mysql
-      PMA_USER: test
-      PMA_PASSWORD: test
-    ports:
-      - "8081:80"
-    volumes:
-      - ./phpadmin:/sessions
+  # phpmyadmin:
+  #   image: phpmyadmin:5.2
+  #   depends_on:
+  #     - mysql
+  #   environment:
+  #     PMA_HOST: mysql
+  #     PMA_USER: test
+  #     PMA_PASSWORD: test
+  #   ports:
+  #     - "8081:80"
+  #   volumes:
+  #     - ./phpadmin:/sessions
