@@ -1,0 +1,69 @@
+version: '3'
+services:
+  react:
+    container_name: react
+    build: ./docker/app
+    ports:
+      - 3000:3000
+    volumes:
+      - ./app:/app
+    stdin_open: true
+    tty: true
+    environment:
+      TZ: Asia/Tokyo
+    # command: >
+    #   sh -c '
+    #     cd app
+    #     npm run serve
+    #   '
+        
+
+  mysql:
+    build: ./docker/mysql
+    container_name: mysql
+    environment:
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sample
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: on-failure
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql:cached
+      - ./docker/mysql/sql:/docker-entrypoint-initdb.d:cached
+    ports:
+      - 3306:3306
+
+  # api:
+  #   container_name: api_container
+  #   build: ./docker/api
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - ./api:/api
+  #   tty: true
+  #   environment:
+  #     CHOKIDAR_USEPOLLING: 1
+  #     TZ: Asia/Tokyo
+  #   depends_on:
+  #     - mysql
+  #   # command: >
+  #   #   sh -c '
+  #   #     cd myapp2
+  #   #     npm start
+  #   #   '
+
+
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: test
+      PMA_PASSWORD: test
+    ports:
+      - "8081:80"
+    volumes:
+      - ./phpadmin:/sessions
