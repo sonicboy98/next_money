@@ -57,15 +57,15 @@ services:
   #   #   '
 
 
-  # phpmyadmin:
-  #   image: phpmyadmin:5.2
-  #   depends_on:
-  #     - mysql
-  #   environment:
-  #     PMA_HOST: mysql
-  #     PMA_USER: test
-  #     PMA_PASSWORD: test
-  #   ports:
-  #     - "8081:80"
-  #   volumes:
-  #     - ./phpadmin:/sessions
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: test
+      PMA_PASSWORD: test
+    ports:
+      - "8081:80"
+    volumes:
+      - ./phpadmin:/sessions
