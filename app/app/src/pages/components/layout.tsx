@@ -13,7 +13,7 @@ function Layout({ children }:any) {
 
   return (
     <header>
-        <Header/>
+        <Header />
       <main>
         { children }
       </main>
