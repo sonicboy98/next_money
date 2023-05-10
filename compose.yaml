@@ -11,7 +11,6 @@ services:
     tty: true
     environment:
       TZ: Asia/Tokyo
-    mem_limit: 200m
     # command: >
     #   sh -c '
     #     cd app
@@ -35,7 +34,7 @@ services:
       - ./docker/mysql/sql:/docker-entrypoint-initdb.d:cached
     ports:
       - 3306:3306
-    mem_limit: 200m
+
 
   # api:
   #   container_name: api_container
