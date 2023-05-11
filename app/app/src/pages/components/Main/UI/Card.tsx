@@ -10,19 +10,8 @@ import { useState } from "react";
 type Props = {
     date:Date;
     onClick: (date:Date) => void;
+    changeMonth:(key:string) => void;
 };
-
-type Moneys ={
-    payment:number,
-    money:number
-}
-
-type MonthData = {
-    DATE:Date;
-    ITEM_NAME:string;
-    MONEY:number;
-    PAYMENT:number;
-}
 
 type MonthDataTable = {
     DATE:string;
@@ -39,14 +28,11 @@ type TableData = {
 }
 
 const initMonthData = () => {
+    console.log("aaa")
     const data:MonthDataTable[] = [];
     return data;
 }
 
-const initMoney = () => {
-    const data:Moneys[] = [];
-    return data;
-}
 
 const addMonthZero = (month:number) =>{
     if(month.toString().length < 1){
@@ -60,7 +46,7 @@ const addMonthZero = (month:number) =>{
 
 
 // グラフのコンポーネントの関数を作成
-export const Card = ({date,onClick}:Props) => {
+export const Card = ({date,onClick,changeMonth}:Props) => {
 
     const [CurrentMonthList,setCurrentMonthList] = useState(initMonthData());
       
@@ -173,6 +159,14 @@ export const Card = ({date,onClick}:Props) => {
         </div>
 
         <TableUI MonthData={createTableData()}/>
+
+        <div className=" w-12 h-12 absolute right-3 top-1/2 rounded-full bg-orange-300 flex justify-center">
+            <button className="text-white items-center text-4xl" onClick={() => changeMonth('right')}>▶︎</button>
+        </div>
+
+        <div className=" w-12 h-12 absolute left-3 top-1/2 rounded-full bg-orange-300 flex justify-center">
+            <button className="text-white items-center text-4xl" onClick={() => changeMonth('left')}>◀︎</button>
+        </div>
 
 
 

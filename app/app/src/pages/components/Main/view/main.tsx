@@ -41,7 +41,8 @@ export const Main = () => {
     const [isModal, setModal] = useState(false);//表示管理
 
     const onClick = (date:Date) => {
-        setCurrentDate(date);
+        const date2 = new Date(date.getFullYear(),date.getMonth(),date.getDate())
+        setMonth(date2);
         setModal(true);
     }
     const onClose = () => {
@@ -50,8 +51,19 @@ export const Main = () => {
     //-----------------------------------------------------------
 
     //カルーセル制御-----------------------------------------------
-    const [MonthList,setMonthList] = useState(() => initMonthList());
-    const [CurrentDate,setCurrentDate] = useState(new Date());
+    //const [MonthList,setMonthList] = useState(() => initMonthList());
+    const [Month,setMonth] = useState(new Date());
+
+    const changeMonth = (key:string) =>{
+        if(key === 'right'){
+            const date = new Date(Month.getFullYear(),Month.getMonth() + 1,Month.getDate())
+            setMonth(date)
+        }
+        else{
+            const date = new Date(Month.getFullYear(),Month.getMonth() - 1,Month.getDate())
+            setMonth(date) 
+        }
+    }
 
 
 
@@ -66,7 +78,8 @@ export const Main = () => {
         }
         const res = axios.post('/api/setMonthData',req)
         res.then(data => {
-            setMonthList(initMonthList())
+            const date = new Date(Month.getFullYear(),Month.getMonth(),Month.getDate())
+            setMonth(date)
             console.log(data);
 
         })
@@ -78,26 +91,27 @@ export const Main = () => {
     //-----------------------------------------------------------
 
     return(
-        <div className=" text-xl mt-12 h-[calc(100vh_-_48px)] ">
+        <div className=" text-xl mt-12  ">
         
             {/* メイン画面 */}
-            <Carousel slide={false}  >
+            {/* <Carousel slide={false}  >
                 {MonthList.map(date => 
                     <Card date={date} onClick={onClick} key={date.getMilliseconds()}/>
                 )}
-            </Carousel>
+            </Carousel> */}
+            <Card date={Month} onClick={onClick} changeMonth={changeMonth} key={Month.getMilliseconds()} />
 
 
 
             {/* 入力モーダル画面 */}
             {
                 (isModal) ?
-                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-end">
+                <div className="fixed z-50 top-0 left-0 w-full h-full flex justify-center items-end">
                     <div className="w-11/12 h-5/6 bg-orange-300 rounded-t-2xl p-3">
                         <div className="flex flex-row-reverse w-full h-1/9">
                             <Button className="bg-transparent" onClick={onClose}>X</Button>
                         </div>
-                        <InputNum date={CurrentDate} onClose={onClose} InsDb={setMonthData}/>                    
+                        <InputNum date={Month} onClose={onClose} InsDb={setMonthData}/>                    
                     </div>
 
                 </div>
