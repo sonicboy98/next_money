@@ -135,7 +135,7 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
 
   return (
 
-    <div className="max-w-sm rounded overflow-hidden shadow-lg p-2 mt-2">
+    <div className=" rounded overflow-hidden shadow-lg p-2 mt-2">
 
         {/* 年月表示 */}
         <div className="text-4xl text-black text-center py-5">{date.getFullYear()}年{date.getMonth()+1}月</div>
@@ -160,11 +160,11 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
 
         <TableUI MonthData={createTableData()}/>
 
-        <div className=" w-12 h-12 absolute right-3 top-1/2 rounded-full bg-orange-300 flex justify-center">
+        <div className=" w-12 h-12 opacity-60 absolute right-3 top-1/2 rounded-full bg-orange-300 flex justify-center">
             <button className="text-white items-center text-4xl" onClick={() => changeMonth('right')}>▶︎</button>
         </div>
 
-        <div className=" w-12 h-12 absolute left-3 top-1/2 rounded-full bg-orange-300 flex justify-center">
+        <div className=" w-12 h-12 opacity-60 absolute left-3 top-1/2 rounded-full bg-orange-300 flex justify-center">
             <button className="text-white items-center text-4xl" onClick={() => changeMonth('left')}>◀︎</button>
         </div>
 

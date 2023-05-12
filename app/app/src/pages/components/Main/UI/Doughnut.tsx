@@ -21,12 +21,14 @@ type Props = {
 export const DoughnutChart = ({data}:Props) => {
 
   return (
-    <div>
+    <main className=' flex justify-center' >
       {/* CSSをタグの中に書いてサイズを調整する */}
-      <div className='w-full px-5'>
+      <div className='w-5/6  px-5'>
         <Doughnut data={data} />
       </div>
-    </div>
+    </main>
+
+
   );
 }
 export default DoughnutChart
