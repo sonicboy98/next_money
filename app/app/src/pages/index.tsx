@@ -1,14 +1,11 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-
-import {Main} from '../components/Main/view/main'
+import Login from "@/components/Login/LoginComponent";
 
 export default function Home() {
   return (
-    <main className='w-screen bg-white' >
-      <Main/>
-      
-
+    <main className='w-screen mt-12 bg-white' >
+      <Login />
     </main>
   )
 }
+
+

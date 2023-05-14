@@ -1,4 +1,5 @@
 import { Button } from "flowbite-react";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { NumberButton } from "./NumberButton";
 
@@ -8,6 +9,8 @@ type MonthData = {
     ITEM_NAME:string;
     MONEY:number;
     PAYMENT:number;
+    USER_ID:string;
+    USER_EMAIL:string;
 }
 
 type Props = {
@@ -18,6 +21,8 @@ type Props = {
 
 
 export const InputNum = ({onClose,date,InsDb}:Props) => {
+
+    const { data: session } = useSession();
 
     //収支選択---------------------------------------------
     const [payment,setPayment] = useState(0);
@@ -45,14 +50,20 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
     //----------------------------------------------------
 
     const OnOkClick = () => {
+
+        if(!session?.user?.name && !session?.user?.email){
+            return;
+        }
          
-        const data:MonthData = {
+        const req_data:MonthData = {
             DATE:date,
             ITEM_NAME:'',
             MONEY:parseInt(inNum),
-            PAYMENT:payment
+            PAYMENT:payment,
+            USER_ID:session.user.name as string,
+            USER_EMAIL:session.user.email as string
         }
-        InsDb(data);
+        InsDb(req_data);
     }
 
 

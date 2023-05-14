@@ -7,6 +7,8 @@ type Props = {
     ITEM_NAME:string;
     MONEY:number;
     PAYMENT:string;
+    USER_ID:string;
+    USER_EMAIL:string;
   }[]
 };
 
@@ -15,6 +17,8 @@ type MonthData = {
   ITEM_NAME:string;
   MONEY:number;
   PAYMENT:string;
+  USER_ID:string;
+  USER_EMAIL:string;
 }
 
 
@@ -27,14 +31,22 @@ export const TableUI = ({MonthData}:Props) => {
       {
         accessorKey: 'DATE', //access nested data with dot notation
         header: '日付',
+        size : 50 , //小さな列  
       },
       {
         accessorKey: 'PAYMENT',
         header: '入出区分',
+        size : 50 , //小さな列  
       },
       {
         accessorKey: 'MONEY', //normal accessorKey
         header: '金額',
+        size : 50 , //小さな列  
+      },
+      {
+        accessorKey: 'USER_ID', //normal accessorKey
+        header: '登録者',
+        size : 50 , //小さな列  
       },
     ],
     [],

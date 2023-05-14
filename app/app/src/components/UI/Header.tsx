@@ -1,6 +1,8 @@
 import { FC, useState } from "react";
 import { ToggleButton } from "./ToggleButton";
 import { Navigation } from "./Navigation";
+import { useSession, signOut  } from "next-auth/react";
+import Image from 'next/image';
 
 const Header: FC = () => {
   const [open, setOpen] = useState(false);
@@ -8,16 +10,38 @@ const Header: FC = () => {
     setOpen((prevState) => !prevState);
   };
 
+  const { data: session } = useSession()
+  if (session) {
+    return (
+      <main>
+        <div className="h-12 w-screen fixed top-0 z-50 bg-orange-300 flex">
+          <div className="w-full h-full flex ">
+            <ToggleButton
+              open={open}
+              controls="navigation"
+              label="メニューを開きます"
+              onClick={toggleFunction}
+            />
+
+          </div>
+          <div className="flex flex-col-reverse">
+            <button onClick={() => signOut()}>
+              <Image className=" h-full w-full items-center p-1" src="/Main/logout.png" alt="menu" width={35} height={35} />
+            </button> 
+          </div>
+        
+        <Navigation id="navigation" open={open} />
+        
+        </div>
+
+    </main>
+
+    )
+  }
+
   return (
     <main>
         <div className="h-12 w-screen fixed top-0 z-50 bg-orange-300">
-        <ToggleButton
-            open={open}
-            controls="navigation"
-            label="メニューを開きます"
-            onClick={toggleFunction}
-        />
-        <Navigation id="navigation" open={open} />
         </div>
 
     </main>

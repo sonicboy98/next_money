@@ -1,10 +1,9 @@
-import Doughnut from "../UI/Doughnut";
-import Money from "../UI/money";
 import Card from '../UI/Card'
 import { Button, Carousel, Dropdown, Modal } from "flowbite-react";
 import { useState } from "react";
 import { InputNum } from "../UI/InputNum";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 //定義---------------------------------------------
 //APIからの月単位データ型
@@ -13,24 +12,11 @@ type MonthData = {
     ITEM_NAME:string;
     MONEY:number;
     PAYMENT:number;
+    USER_ID:string;
+    USER_EMAIL:string;
 }
+
 //-------------------------------------------------
-
-//初期表示用の月配列取得
-const initMonthList =() => {
-    let monthList:Date[] = [];
-
-    //現在月の前後3ヶ月分出す
-    for (let i = -3; i < 2; i++){
-        const date = new Date();
-        date.setMonth(date.getMonth() + i);
-        monthList.push(date);
-    }
-    return monthList;
-}
-
-
-
 
 
 
@@ -38,6 +24,7 @@ const initMonthList =() => {
 export const Main = () => {
 
     //入力モーダル画面制御------------------------------------------
+
     const [isModal, setModal] = useState(false);//表示管理
 
     const onClick = (date:Date) => {
@@ -68,19 +55,21 @@ export const Main = () => {
 
 
     //データベースInsert処理
-    const setMonthData = (data:MonthData) =>{
+    const setMonthData = (req_data:MonthData) =>{
         setModal(false);
         const req = {
-            DATE:`${data.DATE.getFullYear()}/${data.DATE.getMonth()+1}/${data.DATE.getDate()}`,
-            ITEM_NAME:data.ITEM_NAME,
-            MONEY:data.MONEY,
-            PAYMENT:data.PAYMENT
+            DATE:`${req_data.DATE.getFullYear()}/${req_data.DATE.getMonth()+1}/${req_data.DATE.getDate()}`,
+            ITEM_NAME:req_data.ITEM_NAME,
+            MONEY:req_data.MONEY,
+            PAYMENT:req_data.PAYMENT,
+            USER_ID:req_data.USER_ID,
+            USER_EMAIL:req_data.USER_EMAIL
         }
         const res = axios.post('/api/setMonthData',req)
-        res.then(data => {
+        res.then(res_data => {
             const date = new Date(Month.getFullYear(),Month.getMonth(),Month.getDate())
             setMonth(date)
-            console.log(data);
+            console.log(res_data);
 
         })
         .catch(err => {

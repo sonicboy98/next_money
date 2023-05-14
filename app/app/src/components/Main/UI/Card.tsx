@@ -6,6 +6,7 @@ import Money from './money';
 import { TableUI } from './TableUI';
 import axios from "axios";
 import { useState } from "react";
+import { useSession } from 'next-auth/react';
 
 type Props = {
     date:Date;
@@ -18,6 +19,8 @@ type MonthDataTable = {
     ITEM_NAME:string;
     MONEY:number;
     PAYMENT:number;
+    USER_ID:string;
+    USER_EMAIL:string;
 }
 
 type TableData = {
@@ -25,10 +28,11 @@ type TableData = {
     ITEM_NAME:string;
     MONEY:number;
     PAYMENT:string;
+    USER_ID:string;
+    USER_EMAIL:string;
 }
 
 const initMonthData = () => {
-    console.log("aaa")
     const data:MonthDataTable[] = [];
     return data;
 }
@@ -48,6 +52,8 @@ const addMonthZero = (month:number) =>{
 // グラフのコンポーネントの関数を作成
 export const Card = ({date,onClick,changeMonth}:Props) => {
 
+    const { data: session } = useSession();
+
     const [CurrentMonthList,setCurrentMonthList] = useState(initMonthData());
       
     useEffect(() => {
@@ -64,7 +70,9 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
                         DATE:data.DATE,
                         ITEM_NAME:data.ITEM_NAME,
                         MONEY:data.MONEY,
-                        PAYMENT:data.PAYMENT
+                        PAYMENT:data.PAYMENT,
+                        USER_ID:session?.user?.name as string,
+                        USER_EMAIL:session?.user?.email as string
                     })
                 })
             }
@@ -126,6 +134,9 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
                 ITEM_NAME:list.ITEM_NAME,
                 MONEY:list.MONEY,
                 PAYMENT:(list.PAYMENT === 0) ? '入金':'出金',
+                USER_ID:session?.user?.name as string,
+                USER_EMAIL:session?.user?.email as string
+            
             })
         })
 
