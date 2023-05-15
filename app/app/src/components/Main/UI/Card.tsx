@@ -134,8 +134,8 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
                 ITEM_NAME:list.ITEM_NAME,
                 MONEY:list.MONEY,
                 PAYMENT:(list.PAYMENT === 0) ? '入金':'出金',
-                USER_ID:session?.user?.name as string,
-                USER_EMAIL:session?.user?.email as string
+                USER_ID:list.USER_ID,
+                USER_EMAIL:list.USER_EMAIL
             
             })
         })
