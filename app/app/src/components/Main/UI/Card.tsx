@@ -71,8 +71,8 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
                         ITEM_NAME:data.ITEM_NAME,
                         MONEY:data.MONEY,
                         PAYMENT:data.PAYMENT,
-                        USER_ID:session?.user?.name as string,
-                        USER_EMAIL:session?.user?.email as string
+                        USER_ID:data.USER_ID,
+                        USER_EMAIL:data.USER_EMAIL
                     })
                 })
             }
