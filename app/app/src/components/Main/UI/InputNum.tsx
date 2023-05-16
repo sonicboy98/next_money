@@ -49,6 +49,10 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
     }
     //----------------------------------------------------
 
+    //文字入力制御------------------------------------------
+    const [inStr, setStr] = useState('');
+    //----------------------------------------------------
+
     const OnOkClick = () => {
 
         if(!session?.user?.name && !session?.user?.email){
@@ -57,7 +61,7 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
          
         const req_data:MonthData = {
             DATE:date,
-            ITEM_NAME:'',
+            ITEM_NAME:inStr,
             MONEY:parseInt(inNum),
             PAYMENT:payment,
             USER_ID:session.user.name as string,
@@ -75,7 +79,7 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
         <div className="w-full h-full p-2 bg-orange-300">
 
             {/* 数字表示部分 */}
-            <div className="flex justify-center w-full h-1/5 ">
+            <div className="flex justify-center w-full h-1/6 ">
                 <div className="flex w-full h-4/5 text-right bg-white text-gray-700 border border-gray-200">
                     {/* 入出選択 */}
                     <div className="w-1/3">
@@ -91,8 +95,27 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
                 </div>
             </div>
 
+
+            {/* 文字入力部分 */}
+            <div className="flex justify-center w-full h-1/6 ">
+                <div className="flex w-full h-4/5 text-right bg-white text-gray-700 border border-gray-200">
+                    {/* 入出選択 */}
+                    <div className="w-1/3">
+                        <select id="selectPayment" className="w-full h-full text-2xl border-transparent" onChange={() => changePayment()}>
+                            <option value={0}>給料</option>
+                            <option value={1}>食費</option>
+                            <option value={2}>光熱費</option>
+                        </select>
+                    </div>
+                    {/* 入力欄 */}
+                    <div className="w-2/3 flex flex-wrap items-center right p-2">
+                        <input className="w-full h-full border-transparent" type="text" value={inStr} onChange={(event) => setStr(event.target.value)}></input>
+                    </div>
+                </div>
+            </div>
+
             {/* 入力制御部分 */}
-            <div className="w-full h-3/5 bg-white p-2 text-gray-700">
+            <div className="w-full h-3/6 bg-white p-2 text-gray-700">
 
                 {/* 番号 */}
                 <div className="flex flex-wrap h-full justify-center items-center">
@@ -109,7 +132,7 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
             </div>
 
             {/* OK、Cancelボタン */}
-            <div className="flex w-full h-1/5 bg-white p-2 text-gray-700">
+            <div className="flex w-full h-1/6 bg-white p-2 text-gray-700">
                 <Button onClick={onClose} className="w-1/2 m-2 bg-orange-300">Cancel</Button>
                 <Button onClick={OnOkClick} className="w-1/2 m-2 bg-orange-300">OK</Button>
             </div>

@@ -48,6 +48,11 @@ export const TableUI = ({MonthData}:Props) => {
         header: '登録者',
         size : 50 , //小さな列  
       },
+      {
+        accessorKey: 'ITEM_NAME', //normal accessorKey
+        header: '説明',
+        size : 50 , //小さな列  
+      },
     ],
     [],
   );

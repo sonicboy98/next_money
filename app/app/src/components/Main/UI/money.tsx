@@ -14,19 +14,19 @@ export const Money = ({money1,money2,money3}:Props) => {
 
         {/* 残金 */}
         <div className='flex flex-row-reverse text-4xl text-right mt-3'>
-            <div>{money1}</div>
+            <div>{money1.toLocaleString()}</div>
             <div className='px-4'>残金</div>
         </div>
 
         {/* 入金 */}
         <div className='flex flex-row-reverse text-xl text-right mt-3'>
-            <div>{money2}</div>
+            <div>{money2.toLocaleString()}</div>
             <div className='px-4'>入金</div>
         </div>
 
         {/* 出金 */}
         <div className='flex flex-row-reverse text-xl text-right mt-3'>
-            <div>{money3}</div>
+            <div>{money3.toLocaleString()}</div>
             <div className='px-4'>出金</div>
         </div>
 
