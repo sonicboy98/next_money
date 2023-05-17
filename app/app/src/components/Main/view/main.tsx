@@ -96,7 +96,7 @@ export const Main = () => {
             {
                 (isModal) ?
                 <div className="fixed z-50 top-0 left-0 w-full h-full flex justify-center items-end">
-                    <div className="w-11/12 h-full bg-orange-300 rounded-t-2xl p-3">
+                    <div className="w-11/12 h-full overflow-scroll bg-orange-300 rounded-t-2xl p-3">
                         <div className="flex flex-row-reverse w-full h-1/9">
                             <Button className="bg-transparent" onClick={onClose}>X</Button>
                         </div>

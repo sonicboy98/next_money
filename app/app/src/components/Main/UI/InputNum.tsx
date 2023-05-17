@@ -2,6 +2,8 @@ import { Button } from "flowbite-react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { NumberButton } from "./NumberButton";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 //APIからの月単位データ型
 type MonthData = {
@@ -23,6 +25,10 @@ type Props = {
 export const InputNum = ({onClose,date,InsDb}:Props) => {
 
     const { data: session } = useSession();
+
+    //日付選択---------------------------------------------
+    const [selectDay,setSelectDay] = useState(new Date())
+
 
     //収支選択---------------------------------------------
     const [payment,setPayment] = useState(0);
@@ -60,7 +66,7 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
         }
          
         const req_data:MonthData = {
-            DATE:date,
+            DATE:selectDay,
             ITEM_NAME:inStr,
             MONEY:parseInt(inNum),
             PAYMENT:payment,
@@ -78,23 +84,11 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
     return(
         <div className="w-full h-full p-2 bg-orange-300">
 
-            {/* 数字表示部分 */}
-            <div className="flex justify-center w-full h-1/6 ">
-                <div className="flex w-full h-4/5 text-right bg-white text-gray-700 border border-gray-200">
-                    {/* 入出選択 */}
-                    <div className="w-1/3">
-                        <select id="selectPayment" className="w-full h-full text-2xl border-transparent" onChange={() => changePayment()}>
-                            <option value={0}>入金</option>
-                            <option value={1}>出金</option>
-                        </select>
-                    </div>
-                    {/* 入力欄 */}
-                    <div className="w-2/3 flex flex-wrap items-center right p-2">
-                        <div className="w-full text-right text-5xl">{inNum}</div>
-                    </div>
-                </div>
+            {/* 文字入力部分 */}
+            <div className=" w-full h-1/6 text-black">
+                <div>日付</div>
+                <DatePicker className="w-full" dateFormat="yyyy/MM/dd" selected={selectDay} onChange={(date) => setSelectDay(date as Date)} />
             </div>
-
 
             {/* 文字入力部分 */}
             <div className="flex justify-center w-full h-1/6 ">
@@ -110,6 +104,23 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
                     {/* 入力欄 */}
                     <div className="w-2/3 flex flex-wrap items-center right p-2">
                         <input className="w-full h-full border-transparent" type="text" value={inStr} onChange={(event) => setStr(event.target.value)}></input>
+                    </div>
+                </div>
+            </div>
+
+            {/* 数字表示部分 */}
+            <div className="flex justify-center w-full h-1/6 ">
+                <div className="flex w-full h-4/5 text-right bg-white text-gray-700 border border-gray-200">
+                    {/* 入出選択 */}
+                    <div className="w-1/3">
+                        <select id="selectPayment" className="w-full h-full text-2xl border-transparent" onChange={() => changePayment()}>
+                            <option value={0}>入金</option>
+                            <option value={1}>出金</option>
+                        </select>
+                    </div>
+                    {/* 入力欄 */}
+                    <div className="w-2/3 flex flex-wrap items-center right p-2">
+                        <div className="w-full text-right text-5xl">{inNum}</div>
                     </div>
                 </div>
             </div>
