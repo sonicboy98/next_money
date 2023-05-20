@@ -12,7 +12,7 @@ type Props = {
             {open ? 
             <nav className=" fixed flex flex-col w-screen items-center top-12 right-0 left-0 bg-slate-300">
             <ul>
-                <li><a href="/view/ListView">List</a></li>
+                <li><a>List</a></li>
                 <li>works</li>
                 <li>contact</li>
             </ul>
