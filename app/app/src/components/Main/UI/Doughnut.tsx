@@ -9,8 +9,11 @@ Chart.register(...registerables)
 type Props = {
     data:{
         labels: string[],
-        datasets: [{
-          data: number[]
+        datasets: [
+          {
+            data: number[]
+            backgroundColor:string[],
+            borderColor:string[]
           }
         ]
     }
@@ -21,10 +24,10 @@ type Props = {
 export const DoughnutChart = ({data}:Props) => {
 
   return (
-    <main className=' flex justify-center' >
+    <main className='flex justify-center' >
       {/* CSSをタグの中に書いてサイズを調整する */}
-      <div className='w-5/6  px-5'>
-        <Doughnut data={data} />
+      <div className='flex justify-center'>
+        <Doughnut data={data}　width={280}　height={280} />
       </div>
     </main>
 

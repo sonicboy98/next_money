@@ -146,7 +146,7 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
 
   return (
 
-    <div className=" rounded overflow-hidden shadow-lg p-2 mt-2">
+    <div className="bg-white rounded overflow-hidden shadow-2xl p-2 mx-6 z-50">
 
         {/* 年月表示 */}
         <div className="text-4xl text-black text-center py-5">{date.getFullYear()}年{date.getMonth()+1}月</div>
@@ -155,27 +155,36 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
         <Doughnut data={{
             labels: [],
             datasets: [{
-                data: [outMoney(),inMoney() - outMoney()]
-            }]
+                data: [outMoney(),inMoney() - outMoney()],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                  ],
+                  borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                  ],
+            }],
+
         }} />
 
 
         {/* お金表示 */}
-        <div className="px-3 py-4">
+        <div className="px-3 py-2">
             <Money money1={inMoney() - outMoney()} money2={inMoney()} money3={outMoney()}  />
         </div>
 
-        <div className='flex flex-row-reverse p-2'>
-            <Button onClick={() => onClick(date)} className=" bg-orange-300 m-2 w-full">収支入力</Button>
+        <div className='flex flex-row-reverse p-2 rounded-3xl'>
+            <button onClick={() => onClick(date)} className="bg-gradient-to-r from-pink-300 to-orange-300 rounded-xl  m-2 w-full ">収支入力</button>
         </div>
 
         <TableUI MonthData={createTableData()}/>
 
-        <div className=" w-12 h-12 opacity-60 absolute right-3 top-1/2 rounded-full bg-orange-300 flex justify-center">
+        <div className=" w-12 h-12 opacity-50 absolute right-3 top-1/2 rounded-full bg-gray-400 flex justify-center">
             <button className="text-white items-center text-4xl" onClick={() => changeMonth('right')}>▶︎</button>
         </div>
 
-        <div className=" w-12 h-12 opacity-60 absolute left-3 top-1/2 rounded-full bg-orange-300 flex justify-center">
+        <div className=" w-12 h-12 opacity-50 absolute left-3 top-1/2 rounded-full bg-gray-400 flex justify-center">
             <button className="text-white items-center text-4xl" onClick={() => changeMonth('left')}>◀︎</button>
         </div>
 

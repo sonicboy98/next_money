@@ -21,7 +21,7 @@ type MonthData = {
 
 
 //メイン画面----------------------------------------------------------------------------
-export const Main = () => {
+export default function Main() {
 
     //入力モーダル画面制御------------------------------------------
 
@@ -80,7 +80,8 @@ export const Main = () => {
     //-----------------------------------------------------------
 
     return(
-        <div className=" text-xl mt-12  ">
+        <div className="text-xl pt-12">
+            {/* <div className='absolute top-0 left-0 w-full h-1/3 bg-orange-300 rounded-b-xl z-0'></div> */}
         
             {/* メイン画面 */}
             {/* <Carousel slide={false}  >
@@ -95,11 +96,9 @@ export const Main = () => {
             {/* 入力モーダル画面 */}
             {
                 (isModal) ?
-                <div className="fixed z-50 top-0 left-0 w-full h-full flex justify-center items-end">
-                    <div className="w-11/12 h-full overflow-scroll bg-orange-300 rounded-t-2xl p-3">
-                        <div className="flex flex-row-reverse w-full h-1/9">
-                            <Button className="bg-transparent" onClick={onClose}>X</Button>
-                        </div>
+                <div className="fixed z-50 bottom-0 left-0 w-full h-5/6 flex justify-center items-end shadow-2xl">
+                    <div className=' fixed w-full h-full bg-black opacity-60 z-10'></div>
+                    <div className="w-11/12 h-full overflow-scroll bg-white border border-gray-200 rounded-t-2xl p-3 z-20">
                         <InputNum date={Month} onClose={onClose} InsDb={setMonthData}/>                    
                     </div>
 

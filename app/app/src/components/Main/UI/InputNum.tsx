@@ -82,71 +82,109 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
     const numList = ['7','8','9','4','5','6','1','2','3','0','00'];
 
     return(
-        <div className="w-full h-full p-2 bg-orange-300">
+        <div className="w-full h-full relative">
 
             {/* 文字入力部分 */}
-            <div className=" w-full h-1/6 text-black">
-                <div>日付</div>
-                <DatePicker className="w-full" dateFormat="yyyy/MM/dd" selected={selectDay} onChange={(date) => setSelectDay(date as Date)} />
+            <div className=" w-full text-black">
+                <div className="bg-gray-200 ">
+                    <div className="p-2">
+                        日付
+                    </div>
+                </div>
+                <DatePicker className="w-full border-gray-200" dateFormat="yyyy/MM/dd" selected={selectDay} onChange={(date) => setSelectDay(date as Date)} />
             </div>
 
             {/* 文字入力部分 */}
-            <div className="flex justify-center w-full h-1/6 ">
-                <div className="flex w-full h-4/5 text-right bg-white text-gray-700 border border-gray-200">
+            <div className=" w-full">
+                <div className="bg-gray-200 ">
+                    <div className="p-2 text-black">
+                        タグ
+                    </div>
+                </div>
+                <div className="flex justify-center w-full h-4/5 text-right bg-white text-gray-700 border border-gray-200">
                     {/* 入出選択 */}
-                    <div className="w-1/3">
-                        <select id="selectPayment" className="w-full h-full text-2xl border-transparent" onChange={() => changePayment()}>
+                    <div className="w-full">
+                        <select id="selectPayment" className="w-full h-full text-lg border-transparent" onChange={() => changePayment()}>
                             <option value={0}>給料</option>
                             <option value={1}>食費</option>
                             <option value={2}>光熱費</option>
                         </select>
                     </div>
                     {/* 入力欄 */}
-                    <div className="w-2/3 flex flex-wrap items-center right p-2">
+                    {/* <div className="w-2/3 flex flex-wrap items-center right p-2">
                         <input className="w-full h-full border-transparent" type="text" value={inStr} onChange={(event) => setStr(event.target.value)}></input>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
             {/* 数字表示部分 */}
-            <div className="flex justify-center w-full h-1/6 ">
-                <div className="flex w-full h-4/5 text-right bg-white text-gray-700 border border-gray-200">
+            <div className="w-full ">
+                <div className="bg-gray-200 ">
+                    <div className="p-2 text-black">
+                        収支
+                    </div>
+                </div>
+                <div className="flex justify-center w-full h-4/5 text-right bg-white text-gray-700 border border-gray-200">
                     {/* 入出選択 */}
                     <div className="w-1/3">
-                        <select id="selectPayment" className="w-full h-full text-2xl border-transparent" onChange={() => changePayment()}>
+                        <select id="selectPayment" className="w-full h-full text-lg border-transparent" onChange={() => changePayment()}>
                             <option value={0}>入金</option>
                             <option value={1}>出金</option>
                         </select>
                     </div>
                     {/* 入力欄 */}
                     <div className="w-2/3 flex flex-wrap items-center right p-2">
+                        <input className="w-full h-full border-transparent bg-orange-100" type="number" value={inNum} onChange={(event) => setNum(event.target.value)}></input>
+                    </div>
+                    {/* <div className="w-2/3 flex flex-wrap items-center right p-2">
                         <div className="w-full text-right text-5xl">{inNum}</div>
+                    </div> */}
+                </div>
+            </div>
+
+
+            {/* 文字入力部分 */}
+            <div className=" w-full">
+                <div className="bg-gray-200 ">
+                    <div className="p-2 text-black">
+                        備考
+                    </div>
+                </div>
+                <div className="flex justify-center w-full h-4/5 text-right bg-white text-gray-700 border border-gray-200">
+                    {/* 入力欄 */}
+                    <div className="w-full flex flex-wrap items-center right p-2">
+                        <input className="w-full h-full border-transparent" type="text" value={inStr} onChange={(event) => setStr(event.target.value)}></input>
                     </div>
                 </div>
             </div>
 
             {/* 入力制御部分 */}
-            <div className="w-full h-3/6 bg-white p-2 text-gray-700">
+            {/* <div className="w-full h-3/6 bg-white p-2 text-gray-700"> */}
 
                 {/* 番号 */}
-                <div className="flex flex-wrap h-full justify-center items-center">
+                {/* <div className="flex flex-wrap h-full justify-center items-center">
                 {numList.map(num => 
                     <NumberButton num={num} key={num} onClick={() => addNum(num)} />
-                )}
+                )} */}
 
                 {/* バックスペース */}
-                <Button color="gray" className="w-1/3 h-1/4 text-center text-4xl border border-gray-200">
+                {/* <Button color="gray" className="w-1/3 h-1/4 text-center text-4xl border border-gray-200">
                     <div onClick={delNum} className="text-4xl">←</div>
                 </Button>
-                </div>
+                </div> */}
 
+            {/* </div> */}
+            
+            <div className="w-full h-1/6">
             </div>
-
             {/* OK、Cancelボタン */}
-            <div className="flex w-full h-1/6 bg-white p-2 text-gray-700">
-                <Button onClick={onClose} className="w-1/2 m-2 bg-orange-300">Cancel</Button>
-                <Button onClick={OnOkClick} className="w-1/2 m-2 bg-orange-300">OK</Button>
+                <div className="fixed flex justify-center bottom-0 w-10/12">
+                <div className=" w-full flex bg-white text-gray-700 gap-3 p-2 border-t border-stone-300">
+                    <Button onClick={onClose} className="w-1/2 bg-gray-300">Cancel</Button>
+                    <Button onClick={OnOkClick} className="w-1/2 bg-orange-300">OK</Button>
+                </div>
             </div>
+
 
         </div>
     )

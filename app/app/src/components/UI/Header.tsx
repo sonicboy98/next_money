@@ -14,8 +14,8 @@ const Header: FC = () => {
   if (session) {
     return (
       <main>
-        <div className="h-12 w-screen fixed top-0 z-50 bg-orange-300 flex">
-          <div className="w-full h-full flex ">
+        <div className="h-12 w-screen fixed top-0 z-50 bg-transparent flex">
+          <div className="w-1/2 h-full flex ">
             <ToggleButton
               open={open}
               controls="navigation"
@@ -24,8 +24,8 @@ const Header: FC = () => {
             />
 
           </div>
-          <div className="flex flex-col-reverse">
-            <button onClick={() => signOut()}>
+          <div className="flex flex-row-reverse w-1/2">
+            <button className="w-3/10 " onClick={() => signOut()}>
               <Image className=" h-full w-full items-center p-1" src="/Main/logout.png" alt="menu" width={35} height={35} />
             </button> 
           </div>

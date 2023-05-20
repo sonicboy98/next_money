@@ -10,25 +10,32 @@ type Props = {
 export const Money = ({money1,money2,money3}:Props) => {
 
   return (
-    <div className=' w-full p-5 text-right text-gray-700'>
+    <div className=' w-full text-right text-gray-700'>
 
         {/* 残金 */}
-        <div className='flex flex-row-reverse text-4xl text-right mt-3'>
+        <div className='flex justify-center text-4xl text-right mt-2'>
+        <div className='px-4'>残金</div>
             <div>{money1.toLocaleString()}</div>
-            <div className='px-4'>残金</div>
         </div>
 
         {/* 入金 */}
-        <div className='flex flex-row-reverse text-xl text-right mt-3'>
-            <div>{money2.toLocaleString()}</div>
-            <div className='px-4'>入金</div>
+        <div className='flex mt-2 gap-1'>
+          <div className='flex justify-center text-xl text-right mt-3 w-1/2'>
+            <div className='flex justify-center bg-sky-200 rounded-3xl'>
+              <div className='px-4'>+</div>
+              <div className='px-4'>{money2.toLocaleString()}</div>
+            </div>
+          </div>
+
+          {/* 出金 */}
+          <div className='flex justify-center flex-col-reverse text-xl text-right mt-3 w-1/2'>
+            <div className='flex justify-center bg-red-200 rounded-3xl'>
+              <div className='px-4'>-</div>
+              <div className='px-4'>{money3.toLocaleString()}</div>
+            </div>
+          </div>
         </div>
 
-        {/* 出金 */}
-        <div className='flex flex-row-reverse text-xl text-right mt-3'>
-            <div>{money3.toLocaleString()}</div>
-            <div className='px-4'>出金</div>
-        </div>
 
     </div>
   );
