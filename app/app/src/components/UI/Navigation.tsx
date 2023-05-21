@@ -10,7 +10,7 @@ type Props = {
     return (
         <div>
             {open ? 
-            <nav className=" fixed flex flex-col w-screen items-center top-12 right-0 left-0 bg-slate-300">
+            <nav className=" fixed flex flex-col w-4/5 h-screen items-center top-12 right-0 left-0 bg-slate-100 shadow-2xl">
             <ul>
                 <li><a>List</a></li>
                 <li>works</li>

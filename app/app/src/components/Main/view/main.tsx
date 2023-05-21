@@ -98,7 +98,7 @@ export default function Main() {
                 (isModal) ?
                 <div className="fixed z-50 bottom-0 left-0 w-full h-5/6 flex justify-center items-end shadow-2xl">
                     <div className=' fixed w-full h-full bg-black opacity-60 z-10'></div>
-                    <div className="w-11/12 h-full overflow-scroll bg-white border border-gray-200 rounded-t-2xl p-3 z-20">
+                    <div className="w-11/12 h-full overflow-scroll bg-white border border-gray-200 rounded-t-2xl p-3 z-20 animate-slide-in-bottom after:animate-slide-out-bottom">
                         <InputNum date={Month} onClose={onClose} InsDb={setMonthData}/>                    
                     </div>
 

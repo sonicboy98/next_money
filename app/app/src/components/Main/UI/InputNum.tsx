@@ -35,6 +35,7 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
     const changePayment = () => {
         const str = document.getElementById("selectPayment") as HTMLSelectElement;
         const pay = str.value;
+        console.log(pay)
         setPayment(parseInt(pay));
     }
 
@@ -103,7 +104,7 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
                 <div className="flex justify-center w-full h-4/5 text-right bg-white text-gray-700 border border-gray-200">
                     {/* 入出選択 */}
                     <div className="w-full">
-                        <select id="selectPayment" className="w-full h-full text-lg border-transparent" onChange={() => changePayment()}>
+                        <select id="selectTag" className="w-full h-full text-lg border-transparent" onChange={() => changePayment()}>
                             <option value={0}>給料</option>
                             <option value={1}>食費</option>
                             <option value={2}>光熱費</option>
@@ -133,7 +134,7 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
                     </div>
                     {/* 入力欄 */}
                     <div className="w-2/3 flex flex-wrap items-center right p-2">
-                        <input className="w-full h-full border-transparent bg-orange-100" type="number" value={inNum} onChange={(event) => setNum(event.target.value)}></input>
+                        <input className="w-full h-full border-transparent bg-orange-100" type="tel" value={inNum} onChange={(event) => setNum(event.target.value)}></input>
                     </div>
                     {/* <div className="w-2/3 flex flex-wrap items-center right p-2">
                         <div className="w-full text-right text-5xl">{inNum}</div>
@@ -177,7 +178,7 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
             <div className="w-full h-1/6">
             </div>
             {/* OK、Cancelボタン */}
-                <div className="fixed flex justify-center bottom-0 w-10/12">
+                <div className="fixed flex justify-center bottom-0 w-11/12">
                 <div className=" w-full flex bg-white text-gray-700 gap-3 p-2 border-t border-stone-300">
                     <Button onClick={onClose} className="w-1/2 bg-gray-300">Cancel</Button>
                     <Button onClick={OnOkClick} className="w-1/2 bg-orange-300">OK</Button>
