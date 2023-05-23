@@ -20,7 +20,8 @@ export default async function handler(
   const name = req.body.ITEM_NAME;
   const id = req.body.USER_ID;
   const email = req.body.USER_EMAIL;
-  const sql = `INSERT INTO MONEY_HISTRY_TABLE(DATE, PAYMENT, MONEY, ITEM_NAME,USER_ID,USER_EMAIL) VALUES ('${date}','${payment}','${money}','${name}','${id}','${email}')`;
+  const tag = req.body.TAG;
+  const sql = `INSERT INTO MONEY_HISTRY_TABLE(DATE, PAYMENT, MONEY, ITEM_NAME,USER_ID,USER_EMAIL,TAG) VALUES ('${date}','${payment}','${money}','${name}','${id}','${email}','${tag}')`;
 
   con.query(sql, (err, result) => {
     if(err) {

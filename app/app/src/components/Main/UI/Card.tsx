@@ -7,6 +7,8 @@ import { TableUI } from './TableUI';
 import axios from "axios";
 import { useState } from "react";
 import { useSession } from 'next-auth/react';
+import Tags from '../../../class/Main/Tags'
+import DoughuntData from '../../../class/Main/DoughnutData'
 
 type Props = {
     date:Date;
@@ -21,6 +23,7 @@ type MonthDataTable = {
     PAYMENT:number;
     USER_ID:string;
     USER_EMAIL:string;
+    TAG:string
 }
 
 type TableData = {
@@ -30,7 +33,10 @@ type TableData = {
     PAYMENT:string;
     USER_ID:string;
     USER_EMAIL:string;
+    TAG:string
 }
+
+
 
 const initMonthData = () => {
     const data:MonthDataTable[] = [];
@@ -47,6 +53,8 @@ const addMonthZero = (month:number) =>{
     }
 }
 
+const tags = new Tags();
+
 
 
 // グラフのコンポーネントの関数を作成
@@ -54,8 +62,8 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
 
     const { data: session } = useSession();
 
+    //月単位のデータ---------------------------------------------------------------------------
     const [CurrentMonthList,setCurrentMonthList] = useState(initMonthData());
-      
     useEffect(() => {
         let monthData:MonthDataTable[] = [];
         let monthDataTable:MonthDataTable[] = [];
@@ -72,12 +80,14 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
                         MONEY:data.MONEY,
                         PAYMENT:data.PAYMENT,
                         USER_ID:data.USER_ID,
-                        USER_EMAIL:data.USER_EMAIL
+                        USER_EMAIL:data.USER_EMAIL,
+                        TAG:data.TAG
                     })
                 })
             }
             //console.log(monthDataTable)
             setCurrentMonthList(monthDataTable);
+            createGraphDataSets(monthDataTable);
 
         })
         .catch(err => {
@@ -86,7 +96,7 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
 
     },[date]);
 
-    //入金計算
+    //入金計算----------------------------------------------
     const inMoney = () => {
         let num = 0;
 
@@ -103,7 +113,7 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
         return num
     }
 
-    //出金計算
+    //出金計算----------------------------------------------
     const outMoney = () => {
         let num = 0;
 
@@ -120,7 +130,7 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
         return num
     }
 
-    //テーブルデータ作成
+    //テーブルデータ作成--------------------------------------
     const createTableData = () => {
         let data:TableData[] = [];
 
@@ -135,12 +145,141 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
                 MONEY:list.MONEY,
                 PAYMENT:(list.PAYMENT === 0) ? '入金':'出金',
                 USER_ID:list.USER_ID,
-                USER_EMAIL:list.USER_EMAIL
-            
+                USER_EMAIL:list.USER_EMAIL,
+                TAG:list.TAG
             })
         })
 
         return data;
+    }
+
+    //ドーナッツグラフデータ作成-------------------------------
+    const [GraphDataSets,setGraphDataSets] = useState(new DoughuntData());
+
+
+    const createGraphDataSets = (monthDataTable:MonthDataTable[]) => {
+        let datasets = new DoughuntData();
+        const inDatasets = inGraphData(monthDataTable);
+        const outDatasets = outGraphData(monthDataTable);
+
+        //マージ
+        const margeLabel = [...outDatasets.labels,...inDatasets.labels];
+        const margeData = [...outDatasets.data,...inDatasets.data];
+        const margeBackgroundColor = [...outDatasets.backgroundColor,...inDatasets.backgroundColor];
+        const margeBorderColor = [...outDatasets.borderColor,...inDatasets.borderColor];
+
+        //セット
+        datasets.labels = margeLabel;
+        datasets.data = margeData;
+        datasets.backgroundColor = margeBackgroundColor;
+        datasets.borderColor = margeBorderColor;
+
+        setGraphDataSets(datasets);
+        console.log(datasets)
+       
+    }
+
+    const inGraphData = (monthDataTable:MonthDataTable[]) => {
+        const datasets = new DoughuntData();
+
+        let tmp:{
+            data:number,
+            id:string 
+        }[]= [];
+
+        tags.tags.map(tag => {
+
+            let sum = 0;
+
+            monthDataTable.map(list => {
+                if(list.TAG === tag.ID && list.PAYMENT === 0){
+                    sum += list.MONEY;
+                }
+            });
+
+            if(sum !== 0){
+                tmp.push({
+                    data:sum,
+                    id:tag.ID,
+                })
+            }
+
+        })
+
+        //ここでtmpソートする
+        tmp.sort(function(a, b) {
+            if (a.data > b.data) {
+              return 1;
+            } else {
+              return -1;
+            }
+          })
+
+        tmp.map(tm => {
+            datasets.data.push(tm.data);
+
+            tags.tags.map(tag => {
+                if(tm.id === tag.ID){
+                    datasets.backgroundColor.push(tag.BACK_GROUND_COLOR);
+                    datasets.borderColor.push(tag.BORDER_COLOR);
+                    datasets.labels.push(tag.NAME);
+                }
+            })
+        })
+
+        return datasets;
+    }
+
+    const outGraphData = (monthDataTable:MonthDataTable[]) => {
+
+        const datasets = new DoughuntData();
+
+        let tmp:{
+            data:number,
+            id:string 
+        }[]= [];
+
+        tags.tags.map(tag => {
+
+            let sum = 0;
+
+            monthDataTable.map(list => {
+                if(list.TAG === tag.ID && list.PAYMENT === 1){
+                    sum += list.MONEY;
+                }
+            });
+
+            if(sum !== 0){
+                tmp.push({
+                    data:sum,
+                    id:tag.ID,
+                })
+            }
+
+        })
+
+        //ここでtmpソートする
+        tmp.sort(function(a, b) {
+            if (a.data > b.data) {
+              return 1;
+            } else {
+              return -1;
+            }
+          })
+
+        tmp.map(tm => {
+            datasets.data.push(tm.data);
+
+            tags.tags.map(tag => {
+                if(tm.id === tag.ID){
+                    datasets.backgroundColor.push(tag.BACK_GROUND_COLOR);
+                    datasets.borderColor.push(tag.BORDER_COLOR);
+                    datasets.labels.push(tag.NAME);
+                }
+            })
+        })
+
+        return datasets;
     }
 
 
@@ -153,17 +292,11 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
 
         {/* ドーナッツグラフ表示 */}
         <Doughnut data={{
-            labels: [],
+            labels: GraphDataSets.labels,
             datasets: [{
-                data: [outMoney(),inMoney() - outMoney()],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.7)',
-                    'rgba(54, 162, 235, 0.7)',
-                  ],
-                  borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                  ],
+                data: GraphDataSets.data,
+                backgroundColor: GraphDataSets.backgroundColor,
+                borderColor: GraphDataSets.borderColor
             }],
 
         }} />

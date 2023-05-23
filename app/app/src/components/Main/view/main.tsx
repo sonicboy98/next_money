@@ -14,6 +14,7 @@ type MonthData = {
     PAYMENT:number;
     USER_ID:string;
     USER_EMAIL:string;
+    TAG:string;
 }
 
 //-------------------------------------------------
@@ -63,7 +64,8 @@ export default function Main() {
             MONEY:req_data.MONEY,
             PAYMENT:req_data.PAYMENT,
             USER_ID:req_data.USER_ID,
-            USER_EMAIL:req_data.USER_EMAIL
+            USER_EMAIL:req_data.USER_EMAIL,
+            TAG:req_data.TAG
         }
         const res = axios.post('/api/setMonthData',req)
         res.then(res_data => {

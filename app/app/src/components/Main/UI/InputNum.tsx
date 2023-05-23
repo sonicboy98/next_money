@@ -12,6 +12,7 @@ type MonthData = {
     PAYMENT:number;
     USER_ID:string;
     USER_EMAIL:string;
+    TAG:string;
 }
 
 type Props = {
@@ -35,10 +36,16 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
     const changePayment = () => {
         const str = document.getElementById("selectPayment") as HTMLSelectElement;
         const pay = str.value;
-        console.log(pay)
         setPayment(parseInt(pay));
     }
 
+    //タグ選択
+    const [tag,setTag] = useState('0');
+
+    const changeTag = () => {
+        const str = document.getElementById("selectTag") as HTMLSelectElement;
+        setTag(str.value);
+    }
 
 
     //入力値制御-------------------------------------------
@@ -71,7 +78,8 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
             MONEY:parseInt(inNum),
             PAYMENT:payment,
             USER_ID:session.user.name as string,
-            USER_EMAIL:session.user.email as string
+            USER_EMAIL:session.user.email as string,
+            TAG:tag
         }
         InsDb(req_data);
     }
@@ -92,29 +100,6 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
                     </div>
                 </div>
                 <DatePicker className="w-full border-gray-200" dateFormat="yyyy/MM/dd" selected={selectDay} onChange={(date) => setSelectDay(date as Date)} />
-            </div>
-
-            {/* 文字入力部分 */}
-            <div className=" w-full">
-                <div className="bg-gray-200 ">
-                    <div className="p-2 text-black">
-                        タグ
-                    </div>
-                </div>
-                <div className="flex justify-center w-full h-4/5 text-right bg-white text-gray-700 border border-gray-200">
-                    {/* 入出選択 */}
-                    <div className="w-full">
-                        <select id="selectTag" className="w-full h-full text-lg border-transparent" onChange={() => changePayment()}>
-                            <option value={0}>給料</option>
-                            <option value={1}>食費</option>
-                            <option value={2}>光熱費</option>
-                        </select>
-                    </div>
-                    {/* 入力欄 */}
-                    {/* <div className="w-2/3 flex flex-wrap items-center right p-2">
-                        <input className="w-full h-full border-transparent" type="text" value={inStr} onChange={(event) => setStr(event.target.value)}></input>
-                    </div> */}
-                </div>
             </div>
 
             {/* 数字表示部分 */}
@@ -138,6 +123,30 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
                     </div>
                     {/* <div className="w-2/3 flex flex-wrap items-center right p-2">
                         <div className="w-full text-right text-5xl">{inNum}</div>
+                    </div> */}
+                </div>
+            </div>
+
+            {/* 文字入力部分 */}
+            <div className=" w-full">
+                <div className="bg-gray-200 ">
+                    <div className="p-2 text-black">
+                        タグ
+                    </div>
+                </div>
+                <div className="flex justify-center w-full h-4/5 text-right bg-white text-gray-700 border border-gray-200">
+                    {/* 入出選択 */}
+                    <div className="w-full">
+                        <select id="selectTag" className="w-full h-full text-lg border-transparent" onChange={() => changeTag()}>
+                            <option value={1}>給料</option>
+                            <option value={2}>家賃</option>
+                            <option value={3}>食費</option>
+                            <option value={4}>その他</option>
+                        </select>
+                    </div>
+                    {/* 入力欄 */}
+                    {/* <div className="w-2/3 flex flex-wrap items-center right p-2">
+                        <input className="w-full h-full border-transparent" type="text" value={inStr} onChange={(event) => setStr(event.target.value)}></input>
                     </div> */}
                 </div>
             </div>

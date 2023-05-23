@@ -9,6 +9,7 @@ type Props = {
     PAYMENT:string;
     USER_ID:string;
     USER_EMAIL:string;
+    TAG:string
   }[]
 };
 
@@ -19,6 +20,7 @@ type MonthData = {
   PAYMENT:string;
   USER_ID:string;
   USER_EMAIL:string;
+  TAG:string
 }
 
 
@@ -31,12 +33,12 @@ export const TableUI = ({MonthData}:Props) => {
       {
         accessorKey: 'DATE', //access nested data with dot notation
         header: '日付',
-        size : 50 , //小さな列  
+        size : 30 , //小さな列  
       },
       {
         accessorKey: 'PAYMENT',
         header: '入出区分',
-        size : 50 , //小さな列  
+        size : 40 , //小さな列  
       },
       {
         accessorKey: 'MONEY', //normal accessorKey
@@ -61,6 +63,7 @@ export const TableUI = ({MonthData}:Props) => {
       <MaterialReactTable 
         columns={columns} 
         data={MonthData} 
+        rowCount={MonthData.length}
       />
     )
 
