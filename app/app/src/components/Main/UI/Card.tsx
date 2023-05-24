@@ -158,6 +158,7 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
 
 
     const createGraphDataSets = (monthDataTable:MonthDataTable[]) => {
+        console.log(monthDataTable)
         let datasets = new DoughuntData();
         const inDatasets = inGraphData(monthDataTable);
         const outDatasets = outGraphData(monthDataTable);
