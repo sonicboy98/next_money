@@ -161,11 +161,7 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
 
         let datasets = new DoughuntData();
         const inDatasets = inGraphData(monthDataTable);
-        console.log('in')
-        console.log(inDatasets)
         const outDatasets = outGraphData(monthDataTable);
-        console.log('out')
-        console.log(outDatasets)
 
         //マージ
         const margeLabel = [...outDatasets.labels,...inDatasets.labels];
@@ -180,7 +176,6 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
         datasets.borderColor = margeBorderColor;
 
         setGraphDataSets(datasets);
-        console.log(datasets)
        
     }
 
@@ -191,8 +186,6 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
             data:number,
             id:string 
         }[]= [];
-        console.log("tag")
-        console.log(tags.tags)
         tags.tags.map(tag => {
 
             let sum = 0;

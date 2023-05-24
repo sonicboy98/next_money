@@ -3,6 +3,9 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Tags from '../../../class/Main/Tags'
+
+const tags = new Tags();
 
 //APIからの月単位データ型
 type MonthData = {
@@ -84,6 +87,24 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
         InsDb(req_data);
     }
 
+    //タグリスト作成
+    interface Tag {
+        ID:string;
+        NAME:string;
+        BACK_GROUND_COLOR:string;
+        BORDER_COLOR:string;
+        PAYMENT:number;
+    }
+    const createTagsList = (payment:number) => {
+        const tagList = [] as Tag[];
+        tags.tags.map(tag => {
+            if(tag.PAYMENT.toString() === payment.toString()){
+                tagList.push(tag);
+            }
+        })
+        return tagList;
+    }
+
 
     
 
@@ -138,10 +159,9 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
                     {/* 入出選択 */}
                     <div className="w-full">
                         <select id="selectTag" className="w-full h-full text-lg border-transparent" onChange={() => changeTag()}>
-                            <option value={1}>給料</option>
-                            <option value={2}>家賃</option>
-                            <option value={3}>食費</option>
-                            <option value={4}>その他</option>
+                            {createTagsList(payment).map(tag =>
+                                <option value={tag.ID} key={tag.ID}>{tag.NAME}</option>
+                            )}
                         </select>
                     </div>
                     {/* 入力欄 */}
