@@ -18,17 +18,17 @@ export default class Tags{
             PAYMENT:0,
         },
         {
-            ID:'2',
-            NAME:'家賃',
-            BACK_GROUND_COLOR:'rgba(255, 99, 132, 0.7)',//赤
-            BORDER_COLOR:'rgba(255, 99, 132, 1)',
-            PAYMENT:1,
-        },
-        {
             ID:'3',
             NAME:'食費',
             BACK_GROUND_COLOR:'rgba(75, 192, 192, 0.7)',//緑
             BORDER_COLOR:'rgba(75, 192, 192, 1)',
+            PAYMENT:1,
+        },
+        {
+            ID:'2',
+            NAME:'家賃',
+            BACK_GROUND_COLOR:'rgba(255, 99, 132, 0.7)',//赤
+            BORDER_COLOR:'rgba(255, 99, 132, 1)',
             PAYMENT:1,
         },
         {

@@ -1,17 +1,21 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { ToggleButton } from "./ToggleButton";
 import { Navigation } from "./Navigation";
 import { useSession, signOut  } from "next-auth/react";
 import Image from 'next/image';
+import { Context } from "@/lib/store/context";
+
+
+
 
 const Header: FC = () => {
+  const { context, setContext } = useContext(Context);
   const [open, setOpen] = useState(false);
   const toggleFunction = () => {
     setOpen((prevState) => !prevState);
   };
 
-  const { data: session } = useSession()
-  if (session) {
+  if(context.USER_ID){
     return (
       <main>
         <div className="h-12 w-screen fixed top-0 z-50 bg-transparent flex">

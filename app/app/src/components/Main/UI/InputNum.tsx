@@ -1,6 +1,7 @@
+import { Context } from "@/lib/store/context";
 import { Button } from "flowbite-react";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Tags from '../../../class/Main/Tags'
@@ -25,66 +26,38 @@ type Props = {
   };
 
 
+  const iniTag = () => {
+    return '3'
+}
+
+
 export const InputNum = ({onClose,date,InsDb}:Props) => {
 
-    const { data: session } = useSession();
+    const { context, setContext } = useContext(Context);
+
+
 
     //日付選択---------------------------------------------
     const [selectDay,setSelectDay] = useState(new Date())
 
 
     //収支選択---------------------------------------------
-    const [payment,setPayment] = useState(0);
+    const [payment,setPayment] = useState(1);
+    
 
     const changePayment = () => {
         const str = document.getElementById("selectPayment") as HTMLSelectElement;
         const pay = str.value;
+        changeTag();
         setPayment(parseInt(pay));
     }
 
-    //タグ選択
-    const [tag,setTag] = useState('0');
+    //タグ選択---------------------------------------------
+    const [tag,setTag] = useState(iniTag());
 
     const changeTag = () => {
         const str = document.getElementById("selectTag") as HTMLSelectElement;
         setTag(str.value);
-    }
-
-
-    //入力値制御-------------------------------------------
-    const [inNum, setNum] = useState('');
-    //追加処理
-    const addNum = (num:string) => {
-        if(inNum.length < 7){
-            setNum(inNum + num);
-        }
-    }
-    //削除処理
-    const delNum = () => {
-        setNum(inNum.slice( 0, -1 ));
-    }
-    //----------------------------------------------------
-
-    //文字入力制御------------------------------------------
-    const [inStr, setStr] = useState('');
-    //----------------------------------------------------
-
-    const OnOkClick = () => {
-
-        if(!session?.user?.name && !session?.user?.email){
-            return;
-        }
-         
-        const req_data:MonthData = {
-            DATE:selectDay,
-            ITEM_NAME:inStr,
-            MONEY:parseInt(inNum),
-            PAYMENT:payment,
-            USER_ID:session.user.name as string,
-            USER_EMAIL:session.user.email as string,
-            TAG:tag
-        }
-        InsDb(req_data);
     }
 
     //タグリスト作成
@@ -104,11 +77,49 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
         })
         return tagList;
     }
-
-
     
 
-    const numList = ['7','8','9','4','5','6','1','2','3','0','00'];
+    //入力値制御-------------------------------------------
+    const [inNum, setNum] = useState('');
+    //----------------------------------------------------
+
+    //文字入力制御------------------------------------------
+    const [inStr, setStr] = useState('');
+    //----------------------------------------------------
+
+    //OKボタンクリック処理
+    const OnOkClick = () => {
+
+        if(!context.USER_ID){
+            return;
+        }
+
+        //タグ選択してない時にも選択させるため
+        changeTag();
+         
+        const req_data:MonthData = {
+            DATE:selectDay,
+            ITEM_NAME:inStr,
+            MONEY:parseInt(inNum),
+            PAYMENT:payment,
+            USER_ID:context.USER_ID,
+            USER_EMAIL:context.EMAIL,
+            TAG:tag
+        }
+        InsDb(req_data);
+    }
+
+    //収支区分変更
+    useLayoutEffect(() => {
+
+        if(payment === 0){
+            setTag('1')//給料タグ
+        }
+        else{
+            setTag('3')//食費タグ
+        }
+
+    },[payment]);
 
     return(
         <div className="w-full h-full relative">
@@ -134,8 +145,8 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
                     {/* 入出選択 */}
                     <div className="w-1/3">
                         <select id="selectPayment" className="w-full h-full text-lg border-transparent" onChange={() => changePayment()}>
-                            <option value={0}>入金</option>
                             <option value={1}>出金</option>
+                            <option value={0}>入金</option>
                         </select>
                     </div>
                     {/* 入力欄 */}
@@ -186,23 +197,6 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
                     </div>
                 </div>
             </div>
-
-            {/* 入力制御部分 */}
-            {/* <div className="w-full h-3/6 bg-white p-2 text-gray-700"> */}
-
-                {/* 番号 */}
-                {/* <div className="flex flex-wrap h-full justify-center items-center">
-                {numList.map(num => 
-                    <NumberButton num={num} key={num} onClick={() => addNum(num)} />
-                )} */}
-
-                {/* バックスペース */}
-                {/* <Button color="gray" className="w-1/3 h-1/4 text-center text-4xl border border-gray-200">
-                    <div onClick={delNum} className="text-4xl">←</div>
-                </Button>
-                </div> */}
-
-            {/* </div> */}
             
             <div className="w-full h-1/6">
             </div>

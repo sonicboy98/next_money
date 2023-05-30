@@ -1,12 +1,10 @@
 
-import { Button } from 'flowbite-react';
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect, useLayoutEffect } from 'react'
 import Doughnut from './Doughnut';
 import Money from './money';
 import { TableUI } from './TableUI';
 import axios from "axios";
 import { useState } from "react";
-import { useSession } from 'next-auth/react';
 import Tags from '../../../class/Main/Tags'
 import DoughuntData from '../../../class/Main/DoughnutData'
 
@@ -60,18 +58,16 @@ const tags = new Tags();
 // グラフのコンポーネントの関数を作成
 export const Card = ({date,onClick,changeMonth}:Props) => {
 
-    const { data: session } = useSession();
-
     //月単位のデータ---------------------------------------------------------------------------
     const [CurrentMonthList,setCurrentMonthList] = useState(initMonthData());
-    useEffect(() => {
+    useLayoutEffect(() => {
         let monthData:MonthDataTable[] = [];
         let monthDataTable:MonthDataTable[] = [];
         const aaa = {date:`${date.getFullYear()}${addMonthZero(date.getMonth()+1)}`};
         const res = axios.post('/api/getMonthData',aaa)
         res.then(data => {
             monthData = data.data;
-            console.log(monthData)
+
             if(monthData){
                 monthData.map(data => {
                     monthDataTable.push({
@@ -85,9 +81,11 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
                     })
                 })
             }
-            //console.log(monthDataTable)
+            console.log(monthDataTable)
             setCurrentMonthList(monthDataTable);
             createGraphDataSets(monthDataTable);
+            sumInMoney(monthDataTable);
+            sumOutMoney(monthDataTable);
 
         })
         .catch(err => {
@@ -97,37 +95,42 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
     },[date]);
 
     //入金計算----------------------------------------------
-    const inMoney = () => {
+    const [inMoney,setInMoney] = useState(0);
+
+    const sumInMoney = (monthDataTable:MonthDataTable[]) => {
         let num = 0;
 
-        if(!CurrentMonthList){
+        if(!monthDataTable){
             return num;
         }
 
-        CurrentMonthList.map(data => {
+        monthDataTable.map(data => {
             if(data.PAYMENT === 0){
                 num += data.MONEY
             }
         })
-
-        return num
+        console.log("in")
+        console.log(num)
+        setInMoney(num)
     }
 
     //出金計算----------------------------------------------
-    const outMoney = () => {
+    const [outMoney,setOutMoney] = useState(0);
+    const sumOutMoney = (monthDataTable:MonthDataTable[]) => {
         let num = 0;
 
-        if(!CurrentMonthList){
+        if(!monthDataTable){
             return num;
         }
 
-        CurrentMonthList.map(data => {
+        monthDataTable.map(data => {
             if(data.PAYMENT !== 0){
                 num += data.MONEY
             }
         })
-
-        return num
+        console.log("out")
+        console.log(num)
+        setOutMoney(num)
     }
 
     //テーブルデータ作成--------------------------------------
@@ -163,6 +166,12 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
         const inDatasets = inGraphData(monthDataTable);
         const outDatasets = outGraphData(monthDataTable);
 
+        //入金-出金で差を出す
+        outDatasets.data.map(out => {
+            inDatasets.data[0] -= out;
+        })
+        inDatasets.data[0] > 0 ? inDatasets.data[0] : inDatasets.data[0] = 0;
+
         //マージ
         const margeLabel = [...outDatasets.labels,...inDatasets.labels];
         const margeData = [...outDatasets.data,...inDatasets.data];
@@ -175,6 +184,7 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
         datasets.backgroundColor = margeBackgroundColor;
         datasets.borderColor = margeBorderColor;
 
+        console.log(inDatasets)
         setGraphDataSets(datasets);
        
     }
@@ -195,7 +205,6 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
                     sum += list.MONEY;
                 }
             });
-
             if(sum !== 0){
                 tmp.push({
                     data:sum,
@@ -303,7 +312,7 @@ export const Card = ({date,onClick,changeMonth}:Props) => {
 
         {/* お金表示 */}
         <div className="px-3 py-2">
-            <Money money1={inMoney() - outMoney()} money2={inMoney()} money3={outMoney()}  />
+            <Money money1={inMoney - outMoney} money2={inMoney} money3={outMoney}  />
         </div>
 
         <div className='flex flex-row-reverse p-2 rounded-3xl'>
