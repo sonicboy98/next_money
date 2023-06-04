@@ -10,6 +10,7 @@ type Props = {
     USER_ID:string;
     USER_EMAIL:string;
     TAG:string
+    EXPENSES_KEY:string
   }[]
 };
 
@@ -21,6 +22,7 @@ type MonthData = {
   USER_ID:string;
   USER_EMAIL:string;
   TAG:string
+  EXPENSES_KEY:string;
 }
 
 

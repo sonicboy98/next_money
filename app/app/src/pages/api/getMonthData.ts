@@ -14,8 +14,8 @@ export default async function handler(
     database: 'sample'
   });
 
-  const date = req.body.date;
-  const sql = `SELECT * FROM MONEY_HISTRY_TABLE WHERE DATE_FORMAT(DATE, '%Y%m') = ${date}`;
+  const expenses = req.body.EXPENSES_KEY;
+  const sql = `SELECT * FROM MONEY_HISTRY_TABLE WHERE EXPENSES_KEY = '${expenses}'`;
 
   con.query(sql, (err, result) => {
     if(err) {

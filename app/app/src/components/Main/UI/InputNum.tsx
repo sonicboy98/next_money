@@ -17,12 +17,12 @@ type MonthData = {
     USER_ID:string;
     USER_EMAIL:string;
     TAG:string;
+    EXPENSES_KEY:string;
 }
 
 type Props = {
     onClose: () => void;
     InsDb: (data:MonthData)  => void;
-    date:Date;
   };
 
 
@@ -31,7 +31,7 @@ type Props = {
 }
 
 
-export const InputNum = ({onClose,date,InsDb}:Props) => {
+export const InputNum = ({onClose,InsDb}:Props) => {
 
     const { context, setContext } = useContext(Context);
 
@@ -104,7 +104,8 @@ export const InputNum = ({onClose,date,InsDb}:Props) => {
             PAYMENT:payment,
             USER_ID:context.USER_ID,
             USER_EMAIL:context.EMAIL,
-            TAG:tag
+            TAG:tag,
+            EXPENSES_KEY:context.EXPENSES_KEY
         }
         InsDb(req_data);
     }

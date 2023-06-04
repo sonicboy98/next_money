@@ -4,6 +4,8 @@ import { Navigation } from "./Navigation";
 import { useSession, signOut  } from "next-auth/react";
 import Image from 'next/image';
 import { Context } from "@/lib/store/context";
+import { State } from "@/lib/interfaces";
+import router from "next/router";
 
 
 
@@ -14,6 +16,18 @@ const Header: FC = () => {
   const toggleFunction = () => {
     setOpen((prevState) => !prevState);
   };
+
+  const logout = () => {
+    const user:State = {
+        USER_ID:'',
+        EMAIL:'',
+        EXPENSES_KEY:'',
+        EXPENSES_NAME:'',
+    } 
+    setContext(user);
+    signOut()
+
+  }
 
   if(context.USER_ID){
     return (
@@ -29,7 +43,7 @@ const Header: FC = () => {
 
           </div>
           <div className="flex flex-row-reverse w-1/2">
-            <button className="w-3/10 " onClick={() => signOut()}>
+            <button className="w-3/10 " onClick={logout}>
               <Image className=" h-full w-full items-center p-1" src="/Main/logout.png" alt="menu" width={35} height={35} />
             </button> 
           </div>
@@ -45,8 +59,7 @@ const Header: FC = () => {
 
   return (
     <main>
-        <div className="h-12 w-screen fixed top-0 z-50 bg-orange-300">
-        </div>
+
 
     </main>
 

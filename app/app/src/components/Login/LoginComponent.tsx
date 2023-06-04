@@ -33,6 +33,8 @@ export default function Login() {
         const user:State = {
           USER_ID:res_data.data[0].USER_ID,
           EMAIL:res_data.data[0].EMAIL,
+          EXPENSES_KEY:'',
+          EXPENSES_NAME:'',
         } 
 
         setContext(user);
@@ -52,7 +54,7 @@ export default function Login() {
       </div>
 
       <div className="flex justify-center">
-        <button className="w-3/4 h-14 mt-20 border rounded-lg border-black text-black" onClick={() => signIn()}>Google Sign In</button> 
+        <button disabled className="w-3/4 h-14 mt-20 border rounded-lg border-black text-black" onClick={() => signIn()}>Google Sign In</button> 
       </div>
 
       <div className="flex justify-center mt-5">

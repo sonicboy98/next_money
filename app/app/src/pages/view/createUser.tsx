@@ -19,6 +19,12 @@ export default function Login() {
 
     //データベースInsert処理
     const setLoginData = () =>{
+
+      if(id =='' || password == '' || email == ''){
+        alert('必須項目が入力されていません。')
+        return;
+      }
+
       const req = {
         USER_ID:id,
         PASSWORD:password,

@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import mysql from 'mysql2'
-import { cpSync } from 'fs';
 const bcrypt = require('bcrypt');
 
 export default async function handler(
@@ -16,15 +15,9 @@ export default async function handler(
     });
 
     const id = req.body.USER_ID;
-    const password = req.body.PASSWORD;
     const email = req.body.EMAIL;
-    const createDate = new Date().toLocaleString();
-    const saltRounds = 10;
 
-    //ハッシュ化
-    let hashed_password = bcrypt.hashSync(password, saltRounds);
-
-    const sql = `INSERT INTO USER_TABLE(USER_ID, PASSWORD, EMAIL, CREATE_DATE) VALUES ('${id}','${hashed_password}','${email}','${createDate}')`;
+    const sql = `SELECT * FROM USER_EXPENSES_TABLE WHERE USER_ID = '${id}' AND EMAIL = '${email}' ORDER BY EXPENSES_NO `;
 
     con.query(sql, (err, result) => {
         if(err) {

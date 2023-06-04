@@ -1,11 +1,12 @@
+
+import Main from '../../components/ShareExpenses/view/main'
 import Login from "@/components/Login/LoginComponent";
 import { useSession } from "next-auth/react";
-import Main from '@/components/ExpensesList/view/main'
 import { useContext, useEffect, useState } from "react";
-import { Context } from '../lib/store/context'
+import { Context } from '@/lib/store/context'
 import { State } from "@/lib/interfaces";
 
-export default function Home() {
+export default function ShareExpenses() {
   const { data: session } = useSession();
   const { context, setContext } = useContext(Context);
   const [login,setLogin] = useState(false);
@@ -40,10 +41,6 @@ export default function Home() {
   
   if(login){
     return (
-      // <main className='w-screen bg-gradient-to-b from-orange-300 to-white' >
-      //   {/* <div className="fixed w-full h-1/3 top-0 left-0 bg-orange-300 z-[-1]"></div> */}
-
-      // </main>
       <>
         <Main/>
       </>
@@ -58,5 +55,3 @@ export default function Home() {
   }
 
 }
-
-

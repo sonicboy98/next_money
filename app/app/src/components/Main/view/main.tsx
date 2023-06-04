@@ -1,9 +1,8 @@
 import Card from '../UI/Card'
-import { Button, Carousel, Dropdown, Modal } from "flowbite-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { InputNum } from "../UI/InputNum";
 import axios from "axios";
-import { useSession } from "next-auth/react";
+import { Context } from '@/lib/store/context';
 
 //定義---------------------------------------------
 //APIからの月単位データ型
@@ -15,6 +14,7 @@ type MonthData = {
     USER_ID:string;
     USER_EMAIL:string;
     TAG:string;
+    EXPENSES_KEY:string;
 }
 
 //-------------------------------------------------
@@ -24,13 +24,13 @@ type MonthData = {
 //メイン画面----------------------------------------------------------------------------
 export default function Main() {
 
+    const { context, setContext } = useContext(Context);
+
     //入力モーダル画面制御------------------------------------------
 
     const [isModal, setModal] = useState(false);//表示管理
 
-    const onClick = (date:Date) => {
-        const date2 = new Date(date.getFullYear(),date.getMonth(),date.getDate())
-        setMonth(date2);
+    const onClick = () => {
         setModal(true);
     }
     const onClose = () => {
@@ -40,22 +40,23 @@ export default function Main() {
 
     //カルーセル制御-----------------------------------------------
     //const [MonthList,setMonthList] = useState(() => initMonthList());
-    const [Month,setMonth] = useState(new Date());
+    //const [Month,setMonth] = useState(new Date());
 
-    const changeMonth = (key:string) =>{
-        if(key === 'right'){
-            const date = new Date(Month.getFullYear(),Month.getMonth() + 1,Month.getDate())
-            setMonth(date)
-        }
-        else{
-            const date = new Date(Month.getFullYear(),Month.getMonth() - 1,Month.getDate())
-            setMonth(date) 
-        }
-    }
+    // const changeMonth = (key:string) =>{
+    //     if(key === 'right'){
+    //         const date = new Date(Month.getFullYear(),Month.getMonth() + 1,Month.getDate())
+    //         setMonth(date)
+    //     }
+    //     else{
+    //         const date = new Date(Month.getFullYear(),Month.getMonth() - 1,Month.getDate())
+    //         setMonth(date) 
+    //     }
+    // }
 
 
 
     //データベースInsert処理
+    const [count, setCount] = useState(0);//表示管理
     const setMonthData = (req_data:MonthData) =>{
         setModal(false);
         const req = {
@@ -65,14 +66,14 @@ export default function Main() {
             PAYMENT:req_data.PAYMENT,
             USER_ID:req_data.USER_ID,
             USER_EMAIL:req_data.USER_EMAIL,
-            TAG:req_data.TAG
+            TAG:req_data.TAG,
+            EXPENSES_KEY:context.EXPENSES_KEY
         }
         const res = axios.post('/api/setMonthData',req)
         res.then(res_data => {
-            const date = new Date(Month.getFullYear(),Month.getMonth(),Month.getDate())
-            setMonth(date)
             console.log(res_data);
-
+            setModal(false);
+            setCount(count+1)
         })
         .catch(err => {
             console.log(err)
@@ -91,7 +92,7 @@ export default function Main() {
                     <Card date={date} onClick={onClick} key={date.getMilliseconds()}/>
                 )}
             </Carousel> */}
-            <Card date={Month} onClick={onClick} changeMonth={changeMonth} key={Month.getMilliseconds()} />
+            <Card onClick={onClick} key={count}/>
 
 
 
@@ -101,7 +102,7 @@ export default function Main() {
                 <div className="fixed z-50 bottom-0 left-0 w-full h-5/6 flex justify-center items-end shadow-2xl">
                     <div className=' fixed w-full h-full bg-black opacity-60 z-10'></div>
                     <div className="w-11/12 h-full overflow-scroll bg-white border border-gray-200 rounded-t-2xl p-3 z-20 animate-slide-in-bottom after:animate-slide-out-bottom">
-                        <InputNum date={Month} onClose={onClose} InsDb={setMonthData}/>                    
+                        <InputNum onClose={onClose} InsDb={setMonthData}/>                    
                     </div>
 
                 </div>

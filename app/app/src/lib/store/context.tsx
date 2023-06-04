@@ -3,13 +3,12 @@ import {　
   FC,
   ReactNode,
   useState,
-  useReducer,
   Dispatch,
 	SetStateAction,
 } from "react";
 
 import { State } from "../interfaces";
-import { reducer } from '../store/reducer'
+
 
 type Props = {
 children: ReactNode;
@@ -29,6 +28,8 @@ export const ContextProvider: FC<Props> = (props) => {
   const [context, setContext] = useState<State>({
     USER_ID:'',
     EMAIL:'',
+	EXPENSES_KEY:'',
+    EXPENSES_NAME:''
   });
 
 	// TaskListContextの中にProviderがあるため、childrenを囲む
