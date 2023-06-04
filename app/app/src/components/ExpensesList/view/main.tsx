@@ -52,7 +52,6 @@ export default function Login() {
         }
         const res = axios.post('/api/createUserExpenses',req)
         res.then(res_data => {
-            console.log(res_data);
             setModal(false) ;
         })
         .catch(err => {
@@ -73,7 +72,6 @@ export default function Login() {
         }
         const res = axios.post('/api/getUserExpenses',req)
         res.then(res_data => {
-            console.log(res_data)
             const myExpenses:MyExpenses[] = [];
             if(!res_data.data){
                 return;

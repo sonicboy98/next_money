@@ -95,7 +95,6 @@ export const Card = ({expenses}:Props) => {
             if(!res_data.data){
                 return;
             }
-            console.log(res_data.data)
             mon.in = res_data.data[0].in ? res_data.data[0].in  : 0
             mon.out = res_data.data[0].out ? res_data.data[0].out  : 0
             setMoney(mon);
