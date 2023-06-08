@@ -1,8 +1,9 @@
 import Card from '../UI/Card'
-import { useContext, useState } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 import { InputNum } from "../UI/InputNum";
 import axios from "axios";
 import { Context } from '@/lib/store/context';
+import router from 'next/router';
 
 //定義---------------------------------------------
 //APIからの月単位データ型
@@ -38,20 +39,16 @@ export default function Main() {
     }
     //-----------------------------------------------------------
 
-    //カルーセル制御-----------------------------------------------
-    //const [MonthList,setMonthList] = useState(() => initMonthList());
-    //const [Month,setMonth] = useState(new Date());
+    //リダイレクト処理-----------------------
+    useLayoutEffect(() => {
 
-    // const changeMonth = (key:string) =>{
-    //     if(key === 'right'){
-    //         const date = new Date(Month.getFullYear(),Month.getMonth() + 1,Month.getDate())
-    //         setMonth(date)
-    //     }
-    //     else{
-    //         const date = new Date(Month.getFullYear(),Month.getMonth() - 1,Month.getDate())
-    //         setMonth(date) 
-    //     }
-    // }
+        //リダイレクト処理
+        if(!context.USER_ID){
+            router.replace('/')
+        }
+
+    },[context]);
+
 
 
 

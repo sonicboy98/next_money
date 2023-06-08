@@ -9,6 +9,8 @@ import Tags from '../../../class/Main/Tags'
 import DoughuntData from '../../../class/Main/DoughnutData'
 import { Context } from '@/lib/store/context';
 import { useQRCode } from 'next-qrcode';
+import router from 'next/router';
+import Image from 'next/image';
 
 type Props = {
     //date:Date;
@@ -76,6 +78,12 @@ export const Card = ({onClick}:Props) => {
     //月単位のデータ---------------------------------------------------------------------------
     const [CurrentMonthList,setCurrentMonthList] = useState(initMonthData());
     useLayoutEffect(() => {
+
+        //リダイレクト処理
+        if(!context.USER_ID){
+            router.replace('/')
+        }
+
         let monthData:MonthDataTable[] = [];
         let monthDataTable:MonthDataTable[] = [];
         const aaa = {EXPENSES_KEY:context.EXPENSES_KEY};
@@ -108,7 +116,7 @@ export const Card = ({onClick}:Props) => {
             console.log(err)
         })
 
-    },[]);
+    },[context]);
 
     //入金計算----------------------------------------------
     const [inMoney,setInMoney] = useState(0);
@@ -320,8 +328,10 @@ export const Card = ({onClick}:Props) => {
     <div className="bg-white rounded overflow-hidden shadow-2xl p-2 mx-6 z-50">
 
         {/* 共有 */}
-        <div className=" absolute right-10 top-14 z-50 text-black">
-            <button onClick={show_QR} >共有</button>
+        <div className=" absolute right-9 top-14 text-black">
+            <button onClick={show_QR} >
+              <Image className=" h-full w-full items-center p-1" src="/Main/share.png" alt="share" width={25} height={25} />
+            </button>
         </div>
 
         {/* タイトル */}

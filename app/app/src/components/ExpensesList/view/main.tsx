@@ -6,6 +6,7 @@ import { Context } from "@/lib/store/context";
 import { State } from "@/lib/interfaces";
 import Link from 'next/link'
 import Card from '../UI/card'
+import router from "next/router";
 
 type MyExpenses = {
     USER_ID:string;
@@ -40,7 +41,14 @@ export default function Login() {
 
     //描画前処理
     useLayoutEffect(() => {
+
+        //リダイレクト処理
+        if(!context.USER_ID){
+            router.replace('/')
+        }
+
         getExpenses();
+        
     },[count]);
 
     //データベースInsert処理
