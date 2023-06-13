@@ -54,7 +54,7 @@ export default function Login() {
       </div>
 
       <div className="flex justify-center">
-        <button disabled className="w-3/4 h-14 mt-20 border rounded-lg border-black text-black" onClick={() => signIn()}>Google Sign In</button> 
+        <button className="w-3/4 h-14 mt-20 border rounded-lg border-black text-black" onClick={() => signIn()}>Google Sign In</button> 
       </div>
 
       <div className="flex justify-center mt-5">

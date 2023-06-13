@@ -29,6 +29,7 @@ export default function Login() {
 
     //アカウント情報グローバル
     const { context, setContext } = useContext(Context);
+    const { data: session } = useSession();
 
     //モーダル画面表示管理
     const [isModal, setModal] = useState(false);
@@ -43,7 +44,7 @@ export default function Login() {
     useLayoutEffect(() => {
 
         //リダイレクト処理
-        if(!context.USER_ID){
+        if(!context.USER_ID || !session){
             router.replace('/')
         }
 
@@ -53,9 +54,17 @@ export default function Login() {
 
     //データベースInsert処理
     const createExpenses = () =>{
+
+        let id = context.USER_ID;
+        let email = context.EMAIL
+        if(session){
+            id = session.user?.name as string;
+            email = session.user?.email as string
+        }
+
         const req = {
-            USER_ID:context.USER_ID,
-            EMAIL:context.EMAIL,
+            USER_ID:id,
+            EMAIL:email,
             EXPENSES_NAME:inStr,
         }
         const res = axios.post('/api/createUserExpenses',req)
@@ -74,9 +83,16 @@ export default function Login() {
     //リスト表示データ取得
     //データベースSelect処理
     const getExpenses = () =>{
+        let id = context.USER_ID;
+        let email = context.EMAIL
+        if(session){
+            id = session.user?.name as string;
+            email = session.user?.email as string
+        }
+
         const req = {
-            USER_ID:context.USER_ID,
-            EMAIL:context.EMAIL
+            USER_ID:id,
+            EMAIL:email,
         }
         const res = axios.post('/api/getUserExpenses',req)
         res.then(res_data => {

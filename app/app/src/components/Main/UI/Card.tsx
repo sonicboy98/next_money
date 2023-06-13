@@ -11,6 +11,7 @@ import { Context } from '@/lib/store/context';
 import { useQRCode } from 'next-qrcode';
 import router from 'next/router';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
 type Props = {
     //date:Date;
@@ -58,6 +59,7 @@ export const Card = ({onClick}:Props) => {
 
     //アカウント情報グローバル
     const { context, setContext } = useContext(Context);
+    const { data: session } = useSession();
 
     //QR表示管理
     const [isQRModal, setQRModal] = useState(false);
@@ -80,7 +82,7 @@ export const Card = ({onClick}:Props) => {
     useLayoutEffect(() => {
 
         //リダイレクト処理
-        if(!context.USER_ID){
+        if(!context.USER_ID || !session){
             router.replace('/')
         }
 

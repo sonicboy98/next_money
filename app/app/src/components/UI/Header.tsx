@@ -14,6 +14,8 @@ const Header: FC = () => {
 
   //アカウント情報
   const { context, setContext } = useContext(Context);
+  const { data: session } = useSession();
+
 
   // //アカウントメニュー表示フラグ
   const [open, setOpen] = useState(false);
@@ -22,8 +24,18 @@ const Header: FC = () => {
     open ? setOpen(false) : setOpen(true);
   }
 
+  //ユーザー名取得
+  const getUserId =  () => {
+    return context.USER_ID ? context.USER_ID :session?.user?.name as string
+  }
 
-  if(context.USER_ID){
+  //ユーザーメール取得
+  const getUserEmail =  () => {
+    return context.EMAIL ? context.EMAIL :session?.user?.email as string
+  }
+
+
+  if(context.USER_ID || session){
     return (
       <main>
         <div className="h-12 w-screen fixed top-0 z-50 bg-white border-b border-gray-300 flex p-1">
@@ -33,14 +45,14 @@ const Header: FC = () => {
             {/* アバター */}
             <div className="w-1/6 flex justify-center p-[2px]">
               <div className="relative inline-flex items-center justify-center w-8 h-8 overflow-hidden border border-gray-400 bg-red-100 rounded-full dark:bg-gray-600">
-                  <span className="font-medium text-gray-600 dark:text-gray-300">{context.USER_ID.slice( 0, 1 )}</span>
+                  <span className="font-medium text-gray-600 dark:text-gray-300">{getUserId().slice( 0, 1 )}</span>
               </div>
             </div>
 
             {/* ユーザー名 */}
             <div className="w-4/6 text-black">
-              <div className="text-sm">{context.USER_ID}</div>
-              <div className=" text-xs">{context.EMAIL}</div>
+              <div className="text-sm">{getUserId()}</div>
+              <div className=" text-xs">{getUserEmail()}</div>
             </div>
             {/* <ToggleButton
               open={open}

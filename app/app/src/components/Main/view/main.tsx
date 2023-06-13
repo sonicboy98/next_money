@@ -4,6 +4,7 @@ import { InputNum } from "../UI/InputNum";
 import axios from "axios";
 import { Context } from '@/lib/store/context';
 import router from 'next/router';
+import { useSession } from 'next-auth/react';
 
 //定義---------------------------------------------
 //APIからの月単位データ型
@@ -26,6 +27,7 @@ type MonthData = {
 export default function Main() {
 
     const { context, setContext } = useContext(Context);
+    const { data: session } = useSession();
 
     //入力モーダル画面制御------------------------------------------
 
@@ -43,7 +45,7 @@ export default function Main() {
     useLayoutEffect(() => {
 
         //リダイレクト処理
-        if(!context.USER_ID){
+        if(!context.USER_ID || !session){
             router.replace('/')
         }
 

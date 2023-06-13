@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Context } from '@/lib/store/context';
 import { State } from '@/lib/interfaces';
 import router from 'next/router'
+import { useSession } from 'next-auth/react';
 
 type Money = {
     in:number;
@@ -44,6 +45,7 @@ export const Card = ({expenses}:Props) => {
 
     //アカウント情報グローバル
     const { context, setContext } = useContext(Context);
+    const { data: session } = useSession();
 
     //アバターデータ
     const [avater,setAvater] = useState(initAvater());
@@ -111,9 +113,16 @@ export const Card = ({expenses}:Props) => {
     //カードクリックイベント
     const onClick = () => {
 
+        let id = context.USER_ID;
+        let email = context.EMAIL
+        if(session){
+            id = session.user?.name as string;
+            email = session.user?.email as string
+        }
+
         const user:State = {
-            USER_ID:context.USER_ID,
-            EMAIL:context.EMAIL,
+            USER_ID:id,
+            EMAIL:email,
             EXPENSES_KEY:expenses.EXPENSES_KEY,
             EXPENSES_NAME:expenses.EXPENSES_NAME,
 

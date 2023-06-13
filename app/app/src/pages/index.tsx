@@ -12,22 +12,12 @@ export default function Home() {
 
   useEffect(() => {
     setLogin(setUser());
-  }, [context,session]);
+  }, [session]);
 
   //ログイン状態前処理
   const setUser = () => {
 
     if(session){
-      const id = session.user?.name as string;
-      const email = session.user?.email as string;
-      const user:State = {
-        USER_ID:id,
-        EMAIL:email,
-        EXPENSES_KEY:'',
-        EXPENSES_NAME:'',
-
-      } 
-      setContext(user);
       return true;
     }
 
@@ -40,10 +30,6 @@ export default function Home() {
   
   if(login){
     return (
-      // <main className='w-screen bg-gradient-to-b from-orange-300 to-white' >
-      //   {/* <div className="fixed w-full h-1/3 top-0 left-0 bg-orange-300 z-[-1]"></div> */}
-
-      // </main>
       <>
         <Main/>
       </>
