@@ -47,19 +47,15 @@ export default function Login() {
 
 
   return (
-    <div className="h-screen bg-white mt-12 text-black">
+    <div className="h-screen bg-white text-black">
 
       <div className="flex justify-center">
-        <div className="mt-10 text-3xl text-black">yzexpensesにログイン</div>
+        <div className="mt-10 text-3xl text-black">アカウント作成</div>
       </div>
 
-      <div className="flex justify-center">
-        <button className="w-3/4 h-14 mt-20 border rounded-lg border-black text-black" onClick={() => signIn()}>Google Sign In</button> 
+      <div className="flex justify-center mt-20 ">
       </div>
 
-      <div className="flex justify-center mt-5">
-        <div className=" text-lg text-black">or</div>
-      </div>
 
       {/* ID */}
       <div className="flex justify-center mt-5">

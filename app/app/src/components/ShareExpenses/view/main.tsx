@@ -51,9 +51,6 @@ export default function Login() {
     //データベースSelect処理
     const getExpenses = () =>{
 
-        console.log('expenses_key')
-        console.log(expenses_key)
-
         if(!expenses_key){
             return
         }
@@ -64,8 +61,6 @@ export default function Login() {
 
         const res = axios.post('/api/getExpensesAvater',req)//取得データが同じだからアバターのAPI使う
         res.then(res_data => {
-            console.log('res_data')
-            console.log(res_data.data[0].EXPENSES_KEY)
             const myExpenses:MyExpenses = initExpenses()
             if(!res_data.data){
                 return;
@@ -104,7 +99,6 @@ export default function Login() {
         }
         const res = axios.post('/api/setShareExpenses',req)
         res.then(res_data => {
-            console.log(res_data);
             router.push('/view/ExpensesList')
         })
         .catch(err => {
@@ -124,8 +118,8 @@ export default function Login() {
         </div>
 
         {/* 追加ボタン */}
-      <div className="">
-        <button onClick={createExpenses} className="w-1/2 rounded-lg border bg-orange-300 text-white text-4xl items-center">追加する</button>
+      <div className=" flex justify-center mt-10">
+        <button onClick={createExpenses} className="w-2/3 rounded-lg border bg-orange-300 text-white text-2xl items-center">追加する</button>
       </div>
 
             {/* 余白 */}

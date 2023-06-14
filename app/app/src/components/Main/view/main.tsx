@@ -46,7 +46,6 @@ export default function Main() {
 
         //リダイレクト処理
         if(!context.USER_ID && !session){
-            console.log("aaaa")
             router.replace('/')
         }
 
