@@ -45,11 +45,12 @@ export default function Main() {
     useLayoutEffect(() => {
 
         //リダイレクト処理
-        if(!context.USER_ID || !session){
+        if(!context.USER_ID && !session){
+            console.log("aaaa")
             router.replace('/')
         }
 
-    },[context]);
+    },[context,session]);
 
 
 

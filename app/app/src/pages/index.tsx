@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     setLogin(setUser());
-  }, [session]);
+  }, [context,session]);
 
   //ログイン状態前処理
   const setUser = () => {

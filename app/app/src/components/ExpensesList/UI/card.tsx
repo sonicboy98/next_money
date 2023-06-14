@@ -111,7 +111,7 @@ export const Card = ({expenses}:Props) => {
 
     //画面イベント------------------------------------------------------
     //カードクリックイベント
-    const onClick = () => {
+    const onClick = async () => {
 
         let id = context.USER_ID;
         let email = context.EMAIL
@@ -121,14 +121,14 @@ export const Card = ({expenses}:Props) => {
         }
 
         const user:State = {
-            USER_ID:id,
-            EMAIL:email,
+            USER_ID:context.USER_ID,
+            EMAIL:context.EMAIL,
             EXPENSES_KEY:expenses.EXPENSES_KEY,
             EXPENSES_NAME:expenses.EXPENSES_NAME,
 
         } 
 
-        setContext(user);
+        await setContext(user);
         router.push('/view/ExpensesView')
 
     }

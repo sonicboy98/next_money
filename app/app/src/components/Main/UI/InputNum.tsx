@@ -34,7 +34,7 @@ type Props = {
 export const InputNum = ({onClose,InsDb}:Props) => {
 
     const { context, setContext } = useContext(Context);
-
+    const { data: session } = useSession();
 
 
     //日付選択---------------------------------------------
@@ -96,14 +96,21 @@ export const InputNum = ({onClose,InsDb}:Props) => {
 
         //タグ選択してない時にも選択させるため
         changeTag();
+
+        let id = context.USER_ID;
+        let email = context.EMAIL
+        if(session){
+            id = session.user?.name as string;
+            email = session.user?.email as string
+        }
          
         const req_data:MonthData = {
             DATE:selectDay,
             ITEM_NAME:inStr,
             MONEY:parseInt(inNum),
             PAYMENT:payment,
-            USER_ID:context.USER_ID,
-            USER_EMAIL:context.EMAIL,
+            USER_ID:id,
+            USER_EMAIL:email,
             TAG:tag,
             EXPENSES_KEY:context.EXPENSES_KEY
         }

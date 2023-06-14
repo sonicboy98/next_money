@@ -82,9 +82,9 @@ export const Card = ({onClick}:Props) => {
     useLayoutEffect(() => {
 
         //リダイレクト処理
-        if(!context.USER_ID || !session){
-            router.replace('/')
-        }
+        // if(!context.USER_ID && !session){
+        //     router.replace('/')
+        // }
 
         let monthData:MonthDataTable[] = [];
         let monthDataTable:MonthDataTable[] = [];
@@ -118,7 +118,7 @@ export const Card = ({onClick}:Props) => {
             console.log(err)
         })
 
-    },[context]);
+    },[context,session]);
 
     //入金計算----------------------------------------------
     const [inMoney,setInMoney] = useState(0);

@@ -20,7 +20,7 @@ export default function Login() {
     CREATE_DATE:number;
   }
 
-    //データベースInsert処理
+    //ログインクリック処理
     const getLoginData = () =>{
       const req = {
         USER_ID:id,

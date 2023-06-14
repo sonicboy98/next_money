@@ -36,6 +36,7 @@ export default function Login() {
 
     //アカウント情報グローバル
     const { context, setContext } = useContext(Context);
+    const { data: session } = useSession();
 
     //URLパラメータ
     const router = useRouter()
@@ -88,9 +89,16 @@ export default function Login() {
 
     //データベースInsert処理
     const createExpenses = () =>{
+        let id = context.USER_ID;
+        let email = context.EMAIL
+        if(session){
+            id = session.user?.name as string;
+            email = session.user?.email as string
+        }
+
         const req = {
-            USER_ID:context.USER_ID,
-            EMAIL:context.EMAIL,
+            USER_ID:id,
+            EMAIL:email,
             EXPENSES_NAME:expenses.EXPENSES_NAME,
             EXPENSES_KEY:expenses.EXPENSES_KEY,
         }

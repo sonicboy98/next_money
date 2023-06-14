@@ -44,13 +44,14 @@ export default function Login() {
     useLayoutEffect(() => {
 
         //リダイレクト処理
-        if(!context.USER_ID || !session){
+        if(!context.USER_ID && !session){
+            console.log("aaaaa")
             router.replace('/')
         }
 
         getExpenses();
         
-    },[count]);
+    },[count,session]);
 
     //データベースInsert処理
     const createExpenses = () =>{
