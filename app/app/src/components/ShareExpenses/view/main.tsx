@@ -1,10 +1,8 @@
 
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession} from "next-auth/react"
 import { useContext, useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { Context } from "@/lib/store/context";
-import { State } from "@/lib/interfaces";
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Card from "@/components/ExpensesList/UI/card";
 

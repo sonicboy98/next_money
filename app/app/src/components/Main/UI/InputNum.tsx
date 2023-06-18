@@ -90,7 +90,7 @@ export const InputNum = ({onClose,InsDb}:Props) => {
     //OKボタンクリック処理
     const OnOkClick = () => {
 
-        if(!context.USER_ID){
+        if(!context.USER_ID && !session){
             return;
         }
 
